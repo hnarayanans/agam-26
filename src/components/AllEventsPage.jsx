@@ -3,7 +3,7 @@ import { ScrollReveal } from './ScrollReveal';
 import { eventCategories } from '../data/festData';
 import { Award, Calendar, MapPin, Receipt, Search, ArrowLeft, ShieldCheck } from 'lucide-react';
 
-export const AllEventsPage = ({ onOpenRegisterModal }) => {
+export const AllEventsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
 

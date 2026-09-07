@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Users } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { InstagramIcon } from './SocialIcons';
 
-export const Header = ({ onOpenVolunteerModal }) => {
+export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [bgOpacity, setBgOpacity] = useState(0.92);
-  const [isHovered, setIsHovered] = useState(false);
-  const scrollTimerRef = React.useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,22 +13,12 @@ export const Header = ({ onOpenVolunteerModal }) => {
       } else {
         setIsScrolled(false);
       }
-
-      // Fade bg out while scrolling, restore after scroll stops
-      if (!isHovered) {
-        setBgOpacity(0.08);
-        clearTimeout(scrollTimerRef.current);
-        scrollTimerRef.current = setTimeout(() => {
-          setBgOpacity(0.92);
-        }, 1200);
-      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimerRef.current);
     };
-  }, [isHovered]);
+  }, []);
 
   const navLinks = [
     { label: 'Home', href: '#home' },
@@ -79,10 +66,7 @@ export const Header = ({ onOpenVolunteerModal }) => {
       borderBottom: isScrolled ? '1px solid rgba(0,0,0,0.05)' : '1px solid transparent',
       transition: 'all 0.4s var(--ease-editorial)',
       padding: isScrolled ? '12px 5%' : '20px 5%'
-    }}
-    onMouseEnter={() => setIsHovered(true)}
-    onMouseLeave={() => setIsHovered(false)}
-    >
+    }}>
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -180,14 +164,23 @@ export const Header = ({ onOpenVolunteerModal }) => {
             </a>
           ))}
 
+          {/* Subtle editorial divider */}
+          <div style={{
+            width: '1px',
+            height: '16px',
+            backgroundColor: 'var(--border-color)',
+            opacity: 0.6,
+            marginLeft: '4px'
+          }} />
+
           {/* Social Instagram link directly in header */}
           <a
             href="https://www.instagram.com/agam.nssce"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Follow AGAM on Instagram"
             style={{
               color: 'var(--text-deep)',
-              marginLeft: '10px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -211,51 +204,6 @@ export const Header = ({ onOpenVolunteerModal }) => {
             <InstagramIcon size={14} />
           </a>
 
-          {/* Call out for Volunteers button */}
-          <a
-            href="#volunteers"
-            onClick={(e) => {
-              if (onOpenVolunteerModal) {
-                e.preventDefault();
-                onOpenVolunteerModal();
-              }
-            }}
-            style={{
-              marginLeft: '5px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.68rem',
-              fontWeight: '700',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: 'var(--accent-red)',
-              backgroundColor: 'rgba(158, 63, 50, 0.08)',
-              border: '1px solid var(--accent-red)',
-              padding: '6px 14px',
-              borderRadius: '20px',
-              textDecoration: 'none',
-              transition: 'all 0.3s var(--ease-editorial)',
-              boxShadow: '0 2px 10px rgba(158, 63, 50, 0.1)'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--accent-red)';
-              e.currentTarget.style.color = 'var(--bg-primary)';
-              e.currentTarget.style.transform = 'translateY(-1px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(158, 63, 50, 0.08)';
-              e.currentTarget.style.color = 'var(--accent-red)';
-              e.currentTarget.style.transform = 'none';
-            }}
-            className="interactive-element"
-            data-cursor-text="JOIN"
-          >
-            <Users size={13} />
-            <span>Call for Volunteers</span>
-          </a>
-
         </nav>
 
         {/* Mobile Toggle Button */}
@@ -270,6 +218,7 @@ export const Header = ({ onOpenVolunteerModal }) => {
           }}
           className="mobile-toggle-btn interactive-element"
           data-cursor-text="MENU"
+          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
         >
           {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -302,6 +251,7 @@ export const Header = ({ onOpenVolunteerModal }) => {
                 zIndex: 10,
                 padding: '10px'
               }}
+              aria-label="Close menu"
             >
               <X size={32} />
             </button>
@@ -310,9 +260,9 @@ export const Header = ({ onOpenVolunteerModal }) => {
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '25px',
+              gap: '24px',
               alignItems: 'center',
-              paddingTop: '100px',
+              paddingTop: '90px',
               zIndex: 1
             }}>
               {navLinks.map((link) => (
@@ -334,35 +284,44 @@ export const Header = ({ onOpenVolunteerModal }) => {
                 </a>
               ))}
 
+              {/* Ornamental divider motif */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                marginTop: '10px',
+                marginBottom: '5px'
+              }}>
+                <div style={{ width: '30px', height: '1px', backgroundColor: 'var(--border-color)' }} />
+                <span style={{ display: 'inline-block', width: '5px', height: '5px', backgroundColor: 'var(--accent-gold)', transform: 'rotate(45deg)' }} />
+                <div style={{ width: '30px', height: '1px', backgroundColor: 'var(--border-color)' }} />
+              </div>
+
+              {/* Instagram link in mobile menu */}
               <a
-                href="#volunteers"
-                onClick={(e) => {
-                  setMobileMenuOpen(false);
-                  if (onOpenVolunteerModal) {
-                    e.preventDefault();
-                    onOpenVolunteerModal();
-                  }
-                }}
+                href="https://www.instagram.com/agam.nssce"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
-                  marginTop: '10px',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
                   fontFamily: 'var(--font-display)',
-                  fontSize: '0.9rem',
-                  fontWeight: '800',
+                  fontSize: '0.82rem',
+                  fontWeight: '700',
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
-                  color: 'var(--bg-primary)',
-                  backgroundColor: 'var(--accent-red)',
-                  padding: '12px 28px',
-                  borderRadius: '30px',
+                  color: 'var(--accent-red)',
+                  backgroundColor: 'rgba(158, 63, 50, 0.08)',
+                  border: '1px solid var(--accent-red)',
+                  padding: '10px 22px',
+                  borderRadius: '25px',
                   textDecoration: 'none',
-                  boxShadow: '0 6px 20px rgba(158, 63, 50, 0.25)'
+                  boxShadow: '0 2px 10px rgba(158, 63, 50, 0.1)'
                 }}
               >
-                <Users size={16} />
-                Call for Volunteers
+                <InstagramIcon size={15} />
+                <span>Follow on Instagram</span>
               </a>
             </div>
 
@@ -373,7 +332,7 @@ export const Header = ({ onOpenVolunteerModal }) => {
               display: 'flex',
               alignItems: 'flex-end',
               justifyContent: 'center',
-              marginTop: '40px',
+              marginTop: '25px',
               opacity: 0.85
             }}>
               <img 

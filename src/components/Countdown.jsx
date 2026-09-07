@@ -3,7 +3,7 @@ import { FloatingCorner } from './FloatingCorner';
 import { VeenaPlayerSketch, TheyyamDancerSketch } from './Sketches';
 import { ScrollReveal } from './ScrollReveal';
 
-export const Countdown = ({ onOpenRegisterModal }) => {
+export const Countdown = () => {
   // Target date: September 17, 2026, 09:00 AM (relative to our user date in 2026)
   const targetDate = new Date('2026-09-17T09:00:00').getTime();
   

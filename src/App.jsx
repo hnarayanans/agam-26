@@ -7,16 +7,12 @@ import { Leaderboard } from './components/Leaderboard';
 import { OrganizingTeam } from './components/OrganizingTeam';
 import { Footer } from './components/Footer';
 import { AllEventsPage } from './components/AllEventsPage';
-import { RegisterModal } from './components/RegisterModal';
 import { Preloader } from './components/Preloader';
 import { MarqueeDivider } from './components/MarqueeDivider';
 import { Schedule } from './components/Schedule';
 import { CategoryEventsDrawer } from './components/CategoryEventsDrawer';
 
 function App() {
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const [selectedCat, setSelectedCat] = useState('');
-  const [selectedEvt, setSelectedEvt] = useState('');
   const [selectedCategoryDrawer, setSelectedCategoryDrawer] = useState(null);
   const [currentPage, setCurrentPage] = useState(window.location.hash === '#/events' ? 'events' : 'home');
   const [loading, setLoading] = useState(true);
@@ -64,18 +60,6 @@ function App() {
     }
   }, [currentPage]);
 
-  const handleOpenRegisterModal = (catId = '', eventId = '') => {
-    setSelectedCat(catId);
-    setSelectedEvt(eventId);
-    setIsRegisterOpen(true);
-  };
-
-  const handleCloseRegisterModal = () => {
-    setIsRegisterOpen(false);
-    setSelectedCat('');
-    setSelectedEvt('');
-  };
-
   return (
     <div className="app-container">
       {/* Preloader overlaid on top — content renders underneath immediately */}
@@ -85,20 +69,20 @@ function App() {
       <div className="paper-texture" />
 
       {/* Navigation Header */}
-      <Header onOpenVolunteerModal={() => handleOpenRegisterModal()} />
+      <Header />
 
       {currentPage === 'home' ? (
         <>
           <main style={{ position: 'relative', zIndex: 2, backgroundColor: 'var(--bg-primary)', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
             {/* Hero entry section with Theyyam image & parallax */}
             <div style={{ position: 'sticky', top: 0, zIndex: 1, height: '100vh' }}>
-              <Hero onOpenRegisterModal={handleOpenRegisterModal} />
+              <Hero />
             </div>
 
             {/* Rest of the site scrolls over the Hero */}
             <div style={{ position: 'relative', zIndex: 2, backgroundColor: 'var(--bg-primary)' }}>
               {/* Countdown to fest start */}
-              <Countdown onOpenRegisterModal={handleOpenRegisterModal} />
+              <Countdown />
 
             {/* Expandable Department standings */}
             <Leaderboard />
@@ -111,7 +95,6 @@ function App() {
 
             {/* Categories and Event registration details */}
             <EventRegistration 
-              onOpenRegisterModal={handleOpenRegisterModal} 
               selectedCategory={selectedCategoryDrawer}
               onSelectCategory={setSelectedCategoryDrawer}
             />
@@ -126,20 +109,12 @@ function App() {
         </>
       ) : (
         <main style={{ position: 'relative', zIndex: 2, backgroundColor: 'var(--bg-primary)', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
-          <AllEventsPage onOpenRegisterModal={handleOpenRegisterModal} />
+          <AllEventsPage />
         </main>
       )}
 
       {/* Footer closing page */}
-      <Footer onOpenRegisterModal={() => handleOpenRegisterModal()} />
-
-      {/* Registration popup and pass voucher */}
-      <RegisterModal
-        isOpen={isRegisterOpen}
-        onClose={handleCloseRegisterModal}
-        initialCategoryId={selectedCat}
-        initialEventId={selectedEvt}
-      />
+      <Footer />
 
       {/* Category Events Slide-over Drawer (Rendered at root to stay above fixed Header) */}
       <CategoryEventsDrawer

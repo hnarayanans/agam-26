@@ -5,7 +5,6 @@ import { eventCategories } from '../data/festData';
 import { X, Award, Calendar, MapPin, Receipt, ShieldAlert, ArrowRight } from 'lucide-react';
 
 export const EventRegistration = ({ 
-  onOpenRegisterModal,
   selectedCategory: propSelectedCategory,
   onSelectCategory: propOnSelectCategory
 }) => {
